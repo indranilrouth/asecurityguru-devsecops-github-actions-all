@@ -1,7 +1,9 @@
 name: Build code, run unit test, run SAST, SCA, DAST security scans
+
 on: push
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     name: Run unit tests and SAST scan on the source code 
@@ -18,9 +20,11 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+
   security:
     runs-on: ubuntu-latest
-    needs: build
+    #needs: build
     name: Run the SCA scan on the source code
     steps:
       - uses: actions/checkout@master
@@ -29,6 +33,8 @@ jobs:
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+
   zap_scan:
     runs-on: ubuntu-latest
     needs: security
